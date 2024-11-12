@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SearchBar from './SearchBar';
+// import './RecipeList.css';
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
@@ -16,17 +18,12 @@ const RecipeList = () => {
   );
 
   return (
-    <div>
+    <div className="recipe-list">
       <h1>Recipe List</h1>
-      <input
-        type="text"
-        placeholder="Search recipes..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <SearchBar search={search} setSearch={setSearch} />
       <ul>
         {filteredRecipes.map((recipe) => (
-          <li key={recipe.id}>
+          <li key={recipe.id} className="recipe-item">
             <Link to={`/recipe/${recipe.id}`}>
               <h3>{recipe.title}</h3>
               <p>{recipe.description?.substring(0, 100)}...</p>
