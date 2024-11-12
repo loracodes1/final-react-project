@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import 'RecipeDetails.css';
+import './RecipeDetails.css';
 
 const RecipeDetails = () => {
   const { id } = useParams();

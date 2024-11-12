@@ -5,6 +5,7 @@ import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
 import AddRecipe from './components/AddRecipe';
 import FavoriteRecipes from './components/FavoriteRecipes';
+import './style.css';
 
 const App = () => {
   const [favorites, setFavorites] = useState([]);
