@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
-// import './RecipeList.css';
+import './RecipeList.css';
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);

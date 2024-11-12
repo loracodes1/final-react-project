@@ -1,4 +1,5 @@
 import React from 'react';
+import './FavoriteRecipes.css';
 
 const FavoriteRecipes = ({ favorites }) => (
   <div>
