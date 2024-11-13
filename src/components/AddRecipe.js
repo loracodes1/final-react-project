@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './AddRecipe.css';
+import config from "../config/config";
 
 const AddRecipe = () => {
   const [title, setTitle] = useState('');
@@ -16,7 +17,7 @@ const AddRecipe = () => {
 
     const newRecipe = { title, ingredients, instructions, time };
 
-    fetch("http://localhost:5000/recipes", {
+    fetch(`${config.base_url}/recipes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newRecipe),

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './RecipeDetails.css';
+import config from '../config/config';
 
 const RecipeDetails = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/recipes/${id}`)
+    fetch(`${config.base_url}/recipes/${id}`)
       .then((response) => response.json())
       .then((data) => setRecipe(data));
   }, [id]);
