@@ -11,15 +11,15 @@ const App = () => {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-  //   // Fetch the data from localStorage or any other storage to persist favorites
-  //   const storedFavorites =  || [];
-  //   setFavorites(storedFavorites);
-  // }, []);
+    // Fetch the data from localStorage or any other storage to persist favorites
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    setFavorites(storedFavorites);
+  }, []);
 
   useEffect(() => {
-  //   // Persist the favorites to localStorage whenever it changes
-  //   localStorage.setItem('favorites', JSON.stringify(favorites));
-  // }, [favorites]); //
+    // Persist the favorites to localStorage whenever it changes
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
     <Router>

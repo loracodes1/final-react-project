@@ -80,7 +80,7 @@ const RecipeList = ({ setFavorites }) => {
           <div key={recipe.id} className="recipe-card">
             <img
               width="400"
-              src={recipe.image} // Use actual recipe image
+              src={recipe.image} // actual recipe image
               alt={recipe.title}
             />
             <p>{recipe.title}</p>

@@ -6,16 +6,16 @@ const AddRecipe = () => {
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
-  const [time, setTime] = useState('');
+  const [image, setImage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !ingredients || !instructions || !time) {
+    if (!title || !ingredients || !instructions || !image) {
       alert("All fields must be filled out");
       return;
     }
 
-    const newRecipe = { title, ingredients, instructions, time };
+    const newRecipe = { title, ingredients, instructions,  };
 
     fetch(`${config.base_url}/recipes`, {
       method: "POST",
@@ -29,7 +29,7 @@ const AddRecipe = () => {
     setTitle('');
     setIngredients('');
     setInstructions('');
-    setTime('');
+    setImage('');
   };
 
   return (
@@ -39,7 +39,7 @@ const AddRecipe = () => {
         <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
         <textarea placeholder="Ingredients" value={ingredients} onChange={(e) => setIngredients(e.target.value)} />
         <textarea placeholder="Instructions" value={instructions} onChange={(e) => setInstructions(e.target.value)} />
-        <input placeholder="Time" value={time} onChange={(e) => setTime(e.target.value)} />
+        <input placeholder="image url" value={image} onChange={(e) => setImage(e.target.value)} />
         <button type="submit">Add Recipe</button>
       </form>
     </div>
