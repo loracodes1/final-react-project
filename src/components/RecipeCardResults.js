@@ -1,10 +1,29 @@
 import React from 'react';
 import { IconContext } from 'react-icons';
 import { FaCheck, FaPlus } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'
 
 const RecipeCardResults = ({meal, onPlusClickHandler}) => {
+  const navigate = useNavigate();
+
+  // const openRecipe = (meal) => {
+  //   if(! meal.already_added) {
+  //     return;
+  //   }
+
+  //   navigate(`/recipe/${meal.idMeal}`);
+  // }
+
   return (
-    <div id="recipe1" className="recipe-card">
+    <div id="recipe1" className={meal.already_added ? "recipe-card already-added" : "recipe-card"}
+      onClick={() => {
+        if(! meal.already_added) {
+          return false;
+        }
+        
+        navigate(`/recipe/${meal.idMeal}`)
+      }}
+    >
         <img
         width="400"
         src={meal.strMealThumb}

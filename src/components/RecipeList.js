@@ -4,21 +4,38 @@ import SearchBar from './SearchBar';
 import './RecipeList.css';
 import RecipeCard from './RecipeCard';
 import RecipeCardResults from './RecipeCardResults';
+import config from '../config/config';
 
 const RecipeList = () => {
   const [meals, setMeals] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [fetchRecipes, setFetchRecipes] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    console.log(meals);
-  },[meals]);
+    fetch(`${config.base_url}/recipes`, {
+      method: "GET",
+      headers: {
+        "accept": "application/json"
+      }
+    })
+    .then((r) => r.json())
+    .then((recipes_data) => {
+      setRecipes(recipes_data);
+    })
+    .catch(() => {
+      alert('Failed to fetch recipes');
+    })
+  }, [fetchRecipes])
 
   const handleMealsFetched = (meals, showSearch) => {
     if(meals) {
+      let recipe_ids = recipes.map((recipe) => recipe.id)
+    
       meals.map((m) => {
-        m.already_added = false;
+        if(recipe_ids.includes(m.idMeal)) {
+          m.already_added = true;
+        }
       })
     }
     setMeals(meals || []);
@@ -27,13 +44,45 @@ const RecipeList = () => {
 
   const onPlusClickHandler = (e, mealid) => {
     meals.map((m) => {
-      if(m.idMeal === mealid){
-        m.already_added =true;
+      if(m.idMeal === mealid && ! m.already_added){
+        let new_recipe = {
+          id: m.idMeal,
+          name: m.strMeal,
+          image: m.strMealThumb,
+          category: m.strCategory,
+          is_favorite: false,
+          instructions: m.strInstructions.split("\n").map((instruction) => instruction.trim()),
+          ingredients:[],
+        }
+
+        for(let key in m) {
+          if(key.includes("strIngredient") && m[key] !== ""){
+            let measurement_key = key.replace("strIngredient", "strMeasure");
+            new_recipe.ingredients.push(`${m[measurement_key]} ${m[key]}`);
+          }
+        }
+
+        fetch(`${config.base_url}/recipes`, {
+          method: "POST",
+          body: JSON.stringify(new_recipe),
+          headers: {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+          }
+        })
+        .then((r) => r.json())
+        .then((r) => {
+          m.already_added =true;
+
+          let newMeals = meals.slice();
+          setMeals(newMeals);
+          setFetchRecipes(true);
+        })
+        .catch(() => {
+          alert('Failed to add meal');
+        })
       }
     })
-
-    setMeals(meals);
-    // forceUpdate();
   }
 
   return (
@@ -56,10 +105,16 @@ const RecipeList = () => {
       
       <h3>My Recipes</h3>
       <div className="container">
-        <RecipeCard />
-      </div>
+        {recipes.map((recipe) => {
+          return <RecipeCard key={recipe.id} recipe={recipe} />;
+        })}
 
-      <Link to="/favorites" className="favorites-link">Go to Favorites</Link>
+        <div style={{
+          margin: 'auto',
+          width: '100%',
+          textAlign: 'center',
+        }}>{! recipes.length  && <span>No recipes found, search or add new recipe</span>}</div>
+      </div>
     </div>
   );
 };
