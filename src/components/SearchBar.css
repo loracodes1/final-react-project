@@ -3,18 +3,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 2px solid #985277; 
+  border-radius: 40px;
+  padding: 0 16px;
 }
 
 .search-bar input {
-  padding: 10px;
+  padding: 10 4px;
   font-size: 1rem;
-  width: 80%;
-  max-width: 500px;
-  border: 2px solid #28A745; 
-  border-radius: 25px;
+  width: 400px;
+  height: 25px;
   outline: none;
+  border: none;
+  background-color: transparent;
 }
 
 .search-bar input:focus {
-  border-color: #FF5733;
+  border-color: #CE6A85;
+}
+
+.search-bar .search:hover {
+  cursor: pointer;
+}
+
+.loader {
+  width: 100px;
+  margin: auto;
+  height: 15px;
 }

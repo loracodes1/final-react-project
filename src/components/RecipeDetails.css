@@ -1,3 +1,48 @@
+.recipe-container {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
+  padding : 10px 20px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 34px 1px rgba(0,0,0,0.41);
+  -webkit-box-shadow: 0px 2px 34px 1px rgba(0,0,0,0.41);
+  -moz-box-shadow: 0px 2px 34px 1px rgba(0,0,0,0.41);
+}
+
+.meal-image {
+  /* background-image: url("https://www.themealdb.com/images/media/meals/x2fw9e1560460636.jpg");*/
+ background-image: linear-gradient(to bottom, transparent 0%, #ece2e2bd 95%, #e2dcdc 100%), url("https://www.themealdb.com/images/media/meals/x2fw9e1560460636.jpg");
+  background-size: cover;
+  height: 400px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* [2] Transition property for smooth transformation of images */
+.meal-image {
+  transition: transform .5s ease;
+}
+
+/* [3] Finally, transforming the image when container gets hovered */
+.meal-image:hover {
+  transform: scale(1.02);
+}
+
+.category-container {
+  width: 100%;
+  margin: auto;
+  display: flex;
+}
+
+.category-container h3 {
+  padding-right: 15px;
+}
+
+.meal-header {
+  text-align: center;
+}
+
 .recipe-details {
   background-color: #ffffff;
   padding: 20px;
@@ -20,4 +65,35 @@
 
 .recipe-details strong {
   color: #FF5733;
+ }
+
+ol {
+  list-style: none;
+  counter-reset: item;
+  text-align: left;
+}
+
+li {
+  counter-increment: item;
+  margin-bottom: 5px;
+}
+
+li:before {
+  margin-right: 10px;
+  content: counter(item);
+  background: #CE6A85;
+  border-radius: 100%;
+  color: white;
+  width: 1.5em;
+  text-align: center;
+  display: inline-block;
+}
+
+.instructions-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.meal-thumbnail img {
+  border-radius: 25px;
 }
