@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconContext } from 'react-icons';
-import { FaPlus } from 'react-icons/fa';
+import { FaCheck, FaPlus } from 'react-icons/fa';
 
 const RecipeCardResults = ({meal, onPlusClickHandler}) => {
   return (
@@ -13,8 +13,11 @@ const RecipeCardResults = ({meal, onPlusClickHandler}) => {
         <p className='meal-name'>{meal.strMeal}</p>
         <p className='meal-category'>{meal.strCategory}</p>
         <div className='heart'>
-        <IconContext.Provider value={{ color: "#915eff", size: "2em", className: "plus-icon" }}>
-            <FaPlus onClick={(e) => onPlusClickHandler(e)} />
+        <IconContext.Provider value={{ color: "#915eff", size: "2em", className: meal.already_added ? "" : "plus-icon" }}>
+            {meal.already_added ?
+              <FaCheck /> :
+              <FaPlus onClick={(e) => onPlusClickHandler(e, meal.idMeal)} />
+            }
         </IconContext.Provider>
         </div>
     </div>

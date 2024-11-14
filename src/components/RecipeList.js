@@ -8,14 +8,32 @@ import RecipeCardResults from './RecipeCardResults';
 const RecipeList = () => {
   const [meals, setMeals] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
+  // const [, updateState] = React.useState();
+  // const forceUpdate = React.useCallback(() => updateState({}), []);
+
+  useEffect(() => {
+    console.log(meals);
+  },[meals]);
 
   const handleMealsFetched = (meals, showSearch) => {
+    if(meals) {
+      meals.map((m) => {
+        m.already_added = false;
+      })
+    }
     setMeals(meals || []);
     setShowSearch(showSearch);
   }
 
-  const onPlusClickHandler = (e) => {
-    console.log("clicked", e);  
+  const onPlusClickHandler = (e, mealid) => {
+    meals.map((m) => {
+      if(m.idMeal === mealid){
+        m.already_added =true;
+      }
+    })
+
+    setMeals(meals);
+    // forceUpdate();
   }
 
   return (
@@ -29,7 +47,7 @@ const RecipeList = () => {
           <div className="container">
             {meals.length !== 0 ?
               meals.map((meal) => {
-                return <RecipeCardResults meal={meal} onPlusClickHandler={onPlusClickHandler} />
+                return <RecipeCardResults key={meal.idMeal} meal={meal} onPlusClickHandler={onPlusClickHandler} />
               }) : <div>No meals found</div>
             }
           </div>
