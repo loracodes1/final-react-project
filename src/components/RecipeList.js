@@ -8,8 +8,8 @@ import RecipeCardResults from './RecipeCardResults';
 const RecipeList = () => {
   const [meals, setMeals] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
-  // const [, updateState] = React.useState();
-  // const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   useEffect(() => {
     console.log(meals);
