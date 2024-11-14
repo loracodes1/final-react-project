@@ -4,9 +4,10 @@ import { FaSearch } from "react-icons/fa";
 import { PropagateLoader  } from 'react-spinners';
 import config from '../config/config';
 
-const SearchBar = () => {
+const SearchBar = ({onMealsFetched}) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [prevSearchTerm, setPrevSearchTerm] = useState('');
   const [timeout, setTimeoutValue] = useState(null);
 
   const fetchRecipes = async () => {
@@ -14,19 +15,24 @@ const SearchBar = () => {
     .then((r) => r.json())
     .then((data) => {
       setIsSearching(false);
+      onMealsFetched(data.meals, true);
     })
     .catch(() => {
+      setIsSearching(false);
+      onMealsFetched(null, true);
       alert("An error occured while trying to fetch recipes");
     })
   }
 
   const checkSearch = () => {
-    if(searchTerm.trim() === '') {
+    if(searchTerm.trim() === '' || prevSearchTerm.trim() === searchTerm.trim()) {
       setIsSearching(false);
       return;
     }
 
     setIsSearching(true);
+    fetchRecipes();
+    setPrevSearchTerm(searchTerm);
   }
 
   const onKeyUp = () => {
@@ -37,7 +43,6 @@ const SearchBar = () => {
     setTimeoutValue(
       setTimeout(() => {
         checkSearch();
-        fetchRecipes();
       }, 800)
     );
   } 

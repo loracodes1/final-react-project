@@ -24,6 +24,7 @@
   padding: 15px;
   width: 300px; /* Fixed width for each card */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: fit-content;
 }
 
 .recipe-card:hover {
