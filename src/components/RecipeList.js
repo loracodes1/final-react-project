@@ -119,6 +119,7 @@ const RecipeList = () => {
 
           let newMeals = meals.slice();
           setMeals(newMeals);
+          setFetchRecipes({});
         })
         .catch(() => {
           alert('Failed to add meal');

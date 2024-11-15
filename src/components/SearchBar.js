@@ -25,7 +25,14 @@ const SearchBar = ({onMealsFetched}) => {
   }
 
   const checkSearch = () => {
-    if(searchTerm.trim() === '' || prevSearchTerm.trim() === searchTerm.trim()) {
+    if(searchTerm === '' && prevSearchTerm !== '') {
+      setIsSearching(false);
+      setPrevSearchTerm(searchTerm);
+      onMealsFetched(null, false);
+      return;
+    }   
+
+    if(searchTerm === '' || prevSearchTerm === searchTerm) {
       setIsSearching(false);
       return;
     }
@@ -48,7 +55,7 @@ const SearchBar = ({onMealsFetched}) => {
   } 
 
   const updateInputValue = (e) => {
-    setSearchTerm(e.target.value);
+    setSearchTerm(e.target.value.trim());
   }
 
   return (
