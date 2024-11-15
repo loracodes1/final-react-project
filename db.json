@@ -98,6 +98,20 @@
         "null null",
         "null null"
       ]
+    },
+    {
+      "name": "Test Meal",
+      "category": "Drinks",
+      "image": "https://media.istockphoto.com/id/1296650267/photo/indian-chai-in-glass-cups-with-metal-kettle-and-other-masalas-to-make-the-tea.jpg?s=612x612&w=0&k=20&c=9NDLUBJhjf6dgf82AX4s4dQ6-scqdDcnxP3kN6INoEw=",
+      "is_favorite": true,
+      "instructions": [
+        "Boil water",
+        "Serve"
+      ],
+      "ingredients": [
+        "10 liters water"
+      ],
+      "id": "e8bwEFc"
     }
   ]
 }

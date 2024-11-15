@@ -8,29 +8,47 @@ const AddRecipe = () => {
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
   const [image, setImage] = useState('');
+  const [category, setCategory] = useState('');
+  const [adding, setAdding] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !ingredients || !instructions || !image) {
+    setAdding(true);
+
+    if (!title || !ingredients || !instructions || !image || !category) {
       alert("All fields must be filled out");
       return;
     }
 
-    const newRecipe = { title, ingredients, instructions,  };
+    const new_recipe = {
+        name: title, 
+        category: category,
+        image: image,
+        is_favorite: false,
+        instructions: instructions.split("\n"),
+        ingredients: ingredients.split("\n")  
+      };
 
     fetch(`${config.base_url}/recipes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newRecipe),
+      body: JSON.stringify(new_recipe),
     })
       .then((response) => response.json())
-      .then((data) => console.log("Recipe added:", data))
-      .catch((error) => console.error("Error:", error));
+      .then((data) => {
+        setAdding(false);
 
-    setTitle('');
-    setIngredients('');
-    setInstructions('');
-    setImage('');
+        setTitle('');
+        setIngredients('');
+        setInstructions('');
+        setImage('');
+        setCategory('');
+        
+        alert("Recipe added successfully");
+      })
+      .catch((error) => {
+        alert("An error occured while adding recipe")
+      });
   };
 
   return (
@@ -41,6 +59,8 @@ const AddRecipe = () => {
         <div className='form-inputs'>
           <label>Title</label>
           <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <label>Category</label>
+          <input placeholder="Category e.g. meat" value={category} onChange={(e) => setCategory(e.target.value)} />
           <label>Ingredients</label>
           <textarea placeholder="1/2 Kg Pork" value={ingredients} onChange={(e) => setIngredients(e.target.value)} />
           <label>Instructions</label>
@@ -51,9 +71,9 @@ const AddRecipe = () => {
         <div className='form-btn'>
           <button type="submit">
             <span>Add Recipe</span> 
-            <PuffLoader color='#FFF' size="20px" className='btn-loader' style={{
-              display: "none"
-            }} />
+            {adding &&
+              <PuffLoader color='#FFF' size="20px" className='btn-loader' />
+            }
           </button>
         </div>
       </form>
