@@ -15,7 +15,7 @@ To get started with the Recipe Hub locally, follow the instructions below:
 
 ### Installation
 1. **Clone the repository**:
-   git clone https://github.com/loracodes1/final-react-project
+git clone https://github.com/loracodes1/final-react-project
 Navigate to the project directory:
 cd final-react-project
 Install the dependencies:
@@ -24,37 +24,40 @@ Start the development server:
 npm start
 Open the app in your browser:
 http://localhost:3000
-Deployment
-To deploy the project on GitHub Pages:
 
+### Deployment
+To deploy the project on GitHub Pages:
 Build the project
 npm run build
 Deploy to GitHub Pages:
 npm run deploy
 
-Features
-Recipe Search: Quickly find recipes based on ingredients, cuisine, or difficulty.
-Recipe Display: View detailed instructions with ingredients, cooking times, and servings.
-Favorites Feature: Save and view a list of your favorite recipes.
-Add Recipe: Contribute your own recipes to the platform.
-Responsive Design: Access the website seamlessly on desktop and mobile devices.
-Challenges
+## Features
+**Recipe Search**: Quickly find recipes based on ingredients, cuisine, or difficulty.
+**Recipe Display**: View detailed instructions with ingredients, cooking times, and servings.
+**Favorites Feature**: Save and view a list of your favorite recipes.
+**Add Recipe**: Contribute your own recipes to the platform.
+**Responsive Design**: Access the website seamlessly on desktop and mobile devices.
+
+## Challenges
 Designing a user-friendly interface for all devices.
 Building an efficient and accurate search functionality.
 Categorizing recipes for easy browsing and discovery.
 Managing large volumes of data without performance lag.
 Ensuring the website is scalable to accommodate future growth.
-Future Plans
+
+## Future Plans
 Allow users to rate and review recipes.
 Enable social sharing to platforms like Facebook and Twitter.
 Add meal planning features and create shopping lists based on recipes.
 Implement personalized recommendations using AI.
 Develop a mobile app for a more integrated user experience.
-Live Site
-You can access the live version of the Recipe Hub here: Recipe Hub on GitHub Pages
 
-License
+## Live Site
+You can access the live version of the Recipe Hub here: https://loracodes1.github.io/final-react-project
+
+## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-Copyright
+## Copyright
 © 2024 Loracodes. All rights reserved.
