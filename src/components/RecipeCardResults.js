@@ -6,14 +6,6 @@ import { useNavigate } from 'react-router-dom'
 const RecipeCardResults = ({meal, onPlusClickHandler}) => {
   const navigate = useNavigate();
 
-  // const openRecipe = (meal) => {
-  //   if(! meal.already_added) {
-  //     return;
-  //   }
-
-  //   navigate(`/recipe/${meal.idMeal}`);
-  // }
-
   return (
     <div id="recipe1" className={meal.already_added ? "recipe-card already-added" : "recipe-card"}
       onClick={() => {

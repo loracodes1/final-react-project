@@ -12,7 +12,7 @@
 
 .meal-image {
   /* background-image: url("https://www.themealdb.com/images/media/meals/x2fw9e1560460636.jpg");*/
- background-image: linear-gradient(to bottom, transparent 0%, #ece2e2bd 95%, #e2dcdc 100%), url("https://www.themealdb.com/images/media/meals/x2fw9e1560460636.jpg");
+ /* background-image: linear-gradient(to bottom, transparent 0%, #ece2e2bd 95%, #e2dcdc 100%), url("https://www.themealdb.com/images/media/meals/x2fw9e1560460636.jpg"); */
   background-size: cover;
   height: 400px;
   overflow: hidden;
@@ -33,6 +33,7 @@
   width: 100%;
   margin: auto;
   display: flex;
+  padding: 20px 4px;
 }
 
 .category-container h3 {
@@ -70,7 +71,7 @@
 ol {
   list-style: none;
   counter-reset: item;
-  text-align: left;
+  text-align: justify;
 }
 
 li {
@@ -96,4 +97,9 @@ li:before {
 
 .meal-thumbnail img {
   border-radius: 25px;
+}
+
+.instructions-container-inner {
+  padding: 0 10px;
+  text-align: justify;
 }

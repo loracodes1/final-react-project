@@ -1,48 +1,81 @@
-import React from 'react';
-import { FaHeart } from "react-icons/fa";
+import React, { useEffect, useState } from 'react';
+import config from '../config/config';
+import RecipeCard from './RecipeCard';
 
-const FavoriteRecipes = ({ favorites, setFavorites }) => {
-  const removeFromFavorites = (recipeId) => {
-    setFavorites(favorites.filter((recipe) => recipe.id !== recipeId));
-  };
+const FavoriteRecipes = () => {
+  const [fetchRecipes, setFetchRecipes] = useState(null);
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    fetch(`${config.base_url}/recipes`, {
+      method: "GET",
+      headers: {
+        "accept": "application/json"
+      }
+    })
+    .then((r) => r.json())
+    .then((recipes_data) => {
+      recipes_data = recipes_data.filter((r) => {
+        return r.is_favorite === true;
+      });
+
+      setRecipes(recipes_data);
+    })
+    .catch(() => {
+      alert('Failed to fetch recipes');
+    })
+  }, [fetchRecipes])
+
+  const handleAddToFavorites = (recipe) => {
+    recipe.is_favorite = !recipe.is_favorite;
+    fetch(`${config.base_url}/recipes/${recipe.id}`, {
+      method: "PUT",
+      body: JSON.stringify(recipe),
+      headers: {
+        "accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then((r) => r.json())
+    .then(() => {
+      setFetchRecipes({});
+    })
+    .catch(() => {
+      alert('Failed to update recipe');
+    })
+  }
+
+  const handleDeleteRecipe = (recipeid) => {
+      fetch(`${config.base_url}/recipes/${recipeid}`, {
+        method: "DELETE",
+        headers: {
+          "accept": "application/json"
+        }
+      })
+      .then((r) => r.json())
+      .then(() => {
+        setFetchRecipes({});
+      })
+      .catch(() => {
+        alert('Failed to delete recipe');
+      })
+  }
 
   return (
-    <div className="favorite-recipes">
-      <h1>Your Favorite Recipes</h1>
-      {favorites.length === 0 ? (
-        <p>No favorite recipes added yet.</p>
-      ) : (
-        <div className="container">
-          {favorites.map((recipe) => (
-            <div key={recipe.id} className="recipe-card">
-              <img
-                width="400"
-                src={recipe.image}
-                alt={recipe.title}
-              />
-              <p>{recipe.title}</p>
-              <p>{recipe.category}</p>
-              <div className="favorite-icon">
-                <FaHeart style={{ fontSize: '2em', color: '#e60000' }} />
-                <button
-                  onClick={() => removeFromFavorites(recipe.id)}
-                  style={{
-                    backgroundColor: '#ff5252',
-                    color: '#fff',
-                    padding: '10px',
-                    border: 'none',
-                    borderRadius: '5px',
-                    marginTop: '10px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Remove from Favorites
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="recipe-list">
+      <h1>Favorite Recipes</h1>
+      
+      <div className="container">
+        {recipes.map((recipe) => {
+          return <RecipeCard key={recipe.id} recipe={recipe} handleAddToFavorites={handleAddToFavorites} handleDeleteRecipe={handleDeleteRecipe} />;
+        })}
+
+        <div style={{
+          margin: 'auto',
+          width: '100%',
+          textAlign: 'center',
+        }}>{! recipes.length  && <span>No favorite recipes found, search or add new recipe</span>}</div>
+      </div>
     </div>
   );
 };

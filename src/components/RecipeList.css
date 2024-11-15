@@ -54,8 +54,10 @@
 
 .heart {
   display: flex;
-  padding-left: 220px;
+  flex-direction: row-reverse;
+  margin-left: 220px;
   margin: auto;
+  gap: 4px;
 }
 
 .search-results {
@@ -86,4 +88,10 @@
 .plus-icon:hover {
   cursor: pointer;
 }
+
+.trash-icon:hover {
+  cursor: pointer;
+  fill:#CE6A85;
+}
+
 

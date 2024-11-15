@@ -9,8 +9,8 @@ import config from '../config/config';
 const RecipeList = () => {
   const [meals, setMeals] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
-  const [fetchRecipes, setFetchRecipes] = useState(false);
   const [recipes, setRecipes] = useState([]);
+  const [fetchRecipes, setFetchRecipes] = useState({});
 
   useEffect(() => {
     fetch(`${config.base_url}/recipes`, {
@@ -42,6 +42,41 @@ const RecipeList = () => {
     setShowSearch(showSearch);
   }
 
+  const handleAddToFavorites = (recipe) => {
+    recipe.is_favorite = !recipe.is_favorite;
+    fetch(`${config.base_url}/recipes/${recipe.id}`, {
+      method: "PUT",
+      body: JSON.stringify(recipe),
+      headers: {
+        "accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then((r) => r.json())
+    .then(() => {
+      setFetchRecipes({});
+    })
+    .catch(() => {
+      alert('Failed to update recipe');
+    })
+  }
+
+  const handleDeleteRecipe = (recipeid) => {
+      fetch(`${config.base_url}/recipes/${recipeid}`, {
+        method: "DELETE",
+        headers: {
+          "accept": "application/json"
+        }
+      })
+      .then((r) => r.json())
+      .then(() => {
+        setFetchRecipes({});
+      })
+      .catch(() => {
+        alert('Failed to dekete recipe');
+      })
+  }
+
   const onPlusClickHandler = (e, mealid) => {
     meals.map((m) => {
       if(m.idMeal === mealid && ! m.already_added){
@@ -54,6 +89,14 @@ const RecipeList = () => {
           instructions: m.strInstructions.split("\n").map((instruction) => instruction.trim()),
           ingredients:[],
         }
+
+        new_recipe.instructions = new_recipe.instructions.filter((instruction) => {
+          if(instruction && instruction.length < 3) {
+            return false;
+          }
+
+          return instruction && instruction.trim() !== ""
+        })
 
         for(let key in m) {
           if(key.includes("strIngredient") && m[key] !== ""){
@@ -71,12 +114,11 @@ const RecipeList = () => {
           }
         })
         .then((r) => r.json())
-        .then((r) => {
+        .then(() => {
           m.already_added =true;
 
           let newMeals = meals.slice();
           setMeals(newMeals);
-          setFetchRecipes(true);
         })
         .catch(() => {
           alert('Failed to add meal');
@@ -106,7 +148,7 @@ const RecipeList = () => {
       <h3>My Recipes</h3>
       <div className="container">
         {recipes.map((recipe) => {
-          return <RecipeCard key={recipe.id} recipe={recipe} />;
+          return <RecipeCard key={recipe.id} recipe={recipe} handleAddToFavorites={handleAddToFavorites} handleDeleteRecipe={handleDeleteRecipe} />;
         })}
 
         <div style={{

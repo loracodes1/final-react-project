@@ -1,70 +1,88 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './RecipeDetails.css';
 import config from '../config/config';
 import { IconContext } from 'react-icons';
-import { FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { PropagateLoader } from 'react-spinners';
 
 const RecipeDetails = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${config.base_url}/recipes/${id}`)
       .then((response) => response.json())
-      .then((data) => setRecipe(data));
+      .then((data) => {
+        if(! data || ! data.id) {
+          navigate("/");
+          return;
+        }
+        
+        setRecipe(data)
+      })
+      .catch(() => {
+        setRecipe(null);
+      })
   }, [id]);
 
   return (
     <div className="recipe-container">
-      <div className='meal-image'></div>
-        {/* <img
-            width="400"
-            src="https://www.themealdb.com/images/media/meals/x2fw9e1560460636.jpg"
-            alt="allaboufood"
-          /> */}
+      {recipe &&
+      <div>
+        <div className='meal-image' style={{
+          backgroundImage: 'linear-gradient(to bottom, transparent 0%, #ece2e2bd 95%, #e2dcdc 100%), url("' + recipe.image + '")'
+        }}></div>
         <div className='meal-header'>
-          <h1>Meal Title</h1>
-          <div className='category-container'>
-            <h3>Category</h3>
-            <IconContext.Provider value={{ color: "#915eff", size: "2em", className: "heart-icon" }}>
-              <FaRegHeart />
-            </IconContext.Provider>
-          </div>
-      </div>
-
-      <div className='instructions-container'>
-        
-        <div>
-          <h3>Ingredients</h3>
-          <ol>
-            <li>Ingredients 1</li>
-            <li>Ingredients 2</li>
-            <li>Ingredients 3</li>
-            <li>Ingredients 4</li>
-          </ol>
-
-          <br />
+            <h1>{recipe.name}</h1>
+            <div className='category-container'>
+              <h3>{recipe.category}</h3>
+              <br />
+              <IconContext.Provider value={{size: "1.5em", className: recipe.is_favorite ?  "heart-icon-favorites" : "heart-icon" }}>
+              {recipe.is_favorite ?
+                <FaHeart /> :
+                <FaRegHeart />
+              }
+              </IconContext.Provider>
+            </div>
+        </div>
+        <div className='instructions-container'>
           
-          <h3>Instructions</h3>
-          <ol>
-            <li>
-            In a  large saucepan add the rice and rinse under cold water until it runs clear (~4 rinses), add water and bring to a boil – reduce the heat down to low and leave for 10 mins until the water is absorbed</li>
-            <li>Instructions 2</li>
-            <li>Instructions 3</li>
-            <li>Instructions 4</li>
-          </ol>
-        </div>
+          <div className='instructions-container-inner'>
+            <h3>Ingredients</h3>
+            <ol>
+              {recipe.ingredients.map((ingredient) => {
+                return <li>{ingredient}</li>
+              })}
+            </ol>
 
-        <div className='meal-thumbnail'>
-          <img
-            width="400"
-            src="https://www.themealdb.com/images/media/meals/x2fw9e1560460636.jpg"
-            alt="allaboufood"
-          />
-        </div>
+            <br />
+            
+            <h3>Instructions</h3>
+            <ol>
+              {recipe.instructions.map((instruction) => <li>{instruction}</li>)}
+            </ol>
+          </div>
 
+          <div className='meal-thumbnail'>
+            <img
+              width="400"
+              src={recipe.image}
+              alt={recipe.name}
+            />
+          </div>
+
+        </div>
       </div>
+      }
+
+      {!recipe && 
+        <div className='loader'>
+          <PropagateLoader color='#985277' />
+        </div>
+      }
+
     </div>
   )
 };
